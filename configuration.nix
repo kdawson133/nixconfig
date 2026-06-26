@@ -78,7 +78,7 @@
   };
   # Enable Z-Shell
   programs.zsh.enable = true;
-
+  
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
@@ -107,7 +107,12 @@
       nerd-fonts.symbols-only
     ];
   };
+
+  # Passwordless Sudo
   security.sudo.wheelNeedsPassword = false;
+  # Add a custom root certificate
+  security.pki.certificateFiles = [/etc/nixos/certs/minica.crt];
+
   # Install firefox.
   programs.firefox.enable = true;
 

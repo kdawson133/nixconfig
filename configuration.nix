@@ -17,7 +17,7 @@
   # Use latest kernel.
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "vesta"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -46,12 +46,11 @@
   };
 
   # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
-  # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # Enable the GNOME Desktop Environment.
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -77,12 +76,11 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  # Enable Z-Shell
+  programs.zsh.enable = true;
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
-
-  # Install Z Shell
-  programs.zsh.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users."ktdawson" = {
@@ -91,17 +89,25 @@
     extraGroups = [ "networkmanager" "wheel" ];
     shell = pkgs.zsh;
     packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
+      ripgrep
+      fzf
+      zoxide
+      bat
+      eza
+      fd
+      lsb-release
+      starship
+      kora-icon-theme
+      gnome-tweaks
+      gnome-extension-manager
+      gnomeExtensions.appindicator
+      gnomeExtensions.user-themes
+      hasklig
+      nerd-fonts.hasklug
+      nerd-fonts.symbols-only
     ];
   };
-  # Install Steam
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-    localNetworkGameTransfers.openFirewall = true;
-  };
+
   # Install firefox.
   programs.firefox.enable = true;
 
@@ -111,41 +117,32 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     git
     stow
-    fd
-    ripgrep
-    fzf
-    zoxide
-    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim
     curl
     wget
-    lsb-release
-    bat
-    starship
-    eza
     unzip
     gzip
     xz
     p7zip
-    wezterm
     helix
     htop
     brave
+    wezterm
     zed-editor
-    obsidian
     plex-desktop
     plexamp
     nextcloud-client
     sone
-  ];
-  
-  # Install Fonts
-  fonts.packages = with pkgs; [
-    nerd-fonts.symbols-only
-    hasklig
-    nerd-fonts.hasklug
-  ];
+    geary
+    nodejs
+    wl-clipboard
+    xsel
+    xclip
+   ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -157,7 +154,7 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];

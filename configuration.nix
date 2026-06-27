@@ -3,7 +3,9 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
-
+let
+  unstable= import <unstable> {};
+in
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -26,6 +28,9 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+  
+  # Experimental Features
+  # nix.settings.experimental-features = [ "nix-command" "flakes" ];  
 
   # Set your time zone.
   time.timeZone = "Australia/Brisbane";
@@ -76,8 +81,11 @@
     # no need to redefine it in your config for now)
     #media-session.enable = true;
   };
+  
   # Enable Z-Shell
   programs.zsh.enable = true;
+  # Enable Niri-wm
+  programs.niri.enable = true;
   
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
@@ -146,6 +154,8 @@
     wl-clipboard
     xsel
     xclip
+    unstable.noctalia-shell
+    unstable.noctalia-qs
    ];
 
   # Some programs need SUID wrappers, can be configured further or are

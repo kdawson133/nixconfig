@@ -113,6 +113,7 @@ in
       hasklig
       nerd-fonts.hasklug
       nerd-fonts.symbols-only
+      fastfetch
     ];
   };
 
@@ -126,6 +127,18 @@ in
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  # Enable OpenGL and Video drivers
+  hardware.graphics.enable = true;
+  services.xserver.videoDrivers = [ "nvidia" ];
+
+  # Configure NVIDIA specific settings
+  hardware.nvidia = {
+    modesetting.enable = true;
+    powerManagement.enable = false;
+    open = true;
+    nvidiaSettings = true;
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -156,7 +169,11 @@ in
     xclip
     unstable.noctalia-shell
     unstable.noctalia-qs
+    fuzzel
+    ddcutil
    ];
+  
+  hardware.i2c.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
